@@ -18,7 +18,7 @@ void setup() {
   TCNT0  = 0;
   OCR0A = tmrcmp;
   TCCR0A |= (1 << WGM01); //CTC mode
-  TCCR0B |= (1 << CS02); //256 prescaler, 16.5M/256=64.453kHx
+  TCCR0B |= (1 << CS02); //256 prescaler, 16.5M/256=64.453kHz
   TIMSK |= (1 << OCIE0A); //Compare interrupt
   sei();
 
