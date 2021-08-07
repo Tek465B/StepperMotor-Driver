@@ -17,6 +17,8 @@ int StartStepDelayMs = 500;
 
 void setup() {
 
+  DDRB |= B00100111; //pin 0, 1, 2, 5 as output
+
   cli();
   TCCR0A = 0;
   TCCR0B = 0;
@@ -28,8 +30,6 @@ void setup() {
   TCCR0B |= (1 << CS00);
   TIMSK |= (1 << OCIE0A); //Compare interrupt
   sei();
-
-  DDRB |= B00100111; //pin 0, 1, 2, 5 as output
 
 #ifdef SoftStart
   while (currentRPM < rpmMax) {
