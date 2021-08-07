@@ -1,5 +1,5 @@
 /*
- * Unipolar 2 + 2Phase stepper motor driver(mitsumi M42SP-7) 48 step per rotation..
+ * Unipolar 2 + 2 Phase stepper motor driver(mitsumi M42SP-7) 48 step per rotation..
  * ULN2003 Motor Driver and DigiSpark AtTiny85
  * 
  * 2021-08-04
@@ -9,16 +9,17 @@
 
 void setup() {
 
-  byte rpm = 74;// min = 74 ideal = 116
-  byte tmrcmp = 64453/(rpm*3.424); //using 4.28:1 gear reduction ratio.
+  byte rpmMin = 30;// start 30 ideal = 105-110
 
   cli();
   TCCR0A = 0;
   TCCR0B = 0;
   TCNT0  = 0;
-  OCR0A = tmrcmp;
+  //OCR0A = tmrcmp;
+  SetRPM(rpmMin);
   TCCR0A |= (1 << WGM01); //CTC mode
-  TCCR0B |= (1 << CS02); //256 prescaler, 16.5M/256=64.453kHz
+  TCCR0B |= (1 << CS02); //1024 prescaler, 16.5M/1024=16.113k
+  TCCR0B |= (1 << CS00);
   TIMSK |= (1 << OCIE0A); //Compare interrupt
   sei();
 
@@ -39,4 +40,9 @@ ISR(TIMER0_COMPA_vect) {
 void loop() {
 
 
+}
+
+void SetRPM (byte rpm) {
+  byte tmrcmp = 16113/(rpm*3.424); //using 4.28:1 gear reduction ratio.
+  OCR0A = tmrcmp;
 }
