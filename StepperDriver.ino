@@ -6,10 +6,9 @@
  * tek465b.github.io
  */
 
+byte rpmMin = 30;// start 30 ideal = 105-110
 
 void setup() {
-
-  byte rpmMin = 30;// start 30 ideal = 105-110
 
   cli();
   TCCR0A = 0;
