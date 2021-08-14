@@ -1,6 +1,6 @@
 /*
    Unipolar 2 + 2 Phase stepper motor driver(mitsumi M42SP-7) 48 step per rotation..
-   ULN2003 Motor Driver(add 2k resistor to com pin) and DigiSpark AtTiny85
+   ULN2003 Motor Driver(add 2k resistor to com pin) and DigiSpark AtTiny85(make sure reset is disabled)
 
    2021-08-04
    tek465b.github.io
