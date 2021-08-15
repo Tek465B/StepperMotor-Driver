@@ -90,7 +90,7 @@ void RefreshDisplay() {
   oled.print(int(currentRPM));
   oled.setCursor(0, 3);
   //oled.setFont(FONT8X16);
-  //sprintf(oledbuffer, "Time: %d:%d:%d", (hr % 24), (min % 60), (sec % 60));
+  //sprintf(oledbuffer, "Time: %02d:%02d:%02d", (hr % 24), (min % 60), (sec % 60));
   oled.print("Time: ");
   oled.print(hr % 24);
   oled.print(":");
