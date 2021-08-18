@@ -1,19 +1,20 @@
 /*
    Unipolar 2 + 2 Phase stepper motor driver(mitsumi M42SP-7) 48 step per rotation..
-   ULN2003 Motor Driver(add 2k resistor to com pin) and DigiSpark AtTiny85(make sure reset is disabled)
+   ULN2003 Motor Driver and DigiSpark AtTiny85
 
    2021-08-04
    tek465b.github.io
 */
 
-#include <DigisparkOLED.h>
-#include <Wire.h>
+#include <TinyWireM.h>
+#include <Tiny4kOLED.h>
+#include "font16x32digits.h"
 
 #define SoftStart
-
+#define TINY4KOLED_QUICK_BEGIN
 
 byte rpmStart = 30;// start 30 ideal = 105-110
-byte rpmMax = 105;
+byte rpmMax = 90;
 byte currentRPM = rpmStart;
 byte StartStepSize = 5;
 byte StartStepDelayMs = 250;
@@ -38,13 +39,15 @@ void setup() {
 
   oled.begin();
   oled.clear();
-  oled.setFont(FONT8X16);
+  oled.on();
+  oled.setFont(FONT16X32DIGITS);
   
 #ifdef SoftStart
   while (currentRPM < rpmMax) {
     currentRPM += StartStepSize;
     SetRPM(currentRPM);
-    RefreshDisplay();
+    oled.setCursor(0, 0);
+    oled.print(int(currentRPM));
     delay(StartStepDelayMs);
   }
 #endif
@@ -83,19 +86,19 @@ void RefreshDisplay() {
 
   //char oledbuffer[15];
   //sprintf(oledbuffer, "RPM: %d", currentRPM);
-  //oled.clear();
   oled.setCursor(0, 0);
-  //oled.setFont(FONT8X16);
-  oled.print("RPM: ");
+  /*oled.print("RPM: ");
   oled.print(int(currentRPM));
-  oled.setCursor(0, 3);
-  //oled.setFont(FONT8X16);
-  //sprintf(oledbuffer, "Time: %02d:%02d:%02d", (hr % 24), (min % 60), (sec % 60));
-  oled.print("Time: ");
+  oled.setCursor(0, 2);
+  oled.setFont(FONT16X32DIGITS);
+  sprintf(oledbuffer, "Time: %02d:%02d:%02d", (hr % 24), (min % 60), (sec % 60));
+  oled.print("Time: ");*/
   oled.print(hr % 24);
-  oled.print(":");
+  if ((min % 60) < 10) oled.print(":0");
+  else oled.print(":");
   oled.print(min % 60);
-  oled.print(":");
+  if ((sec % 60) < 10) oled.print(":0");
+  else oled.print(":");
   oled.print(sec % 60);
 
 }
